@@ -1,0 +1,27 @@
+.cluster-container {
+  display: inline-block;
+  position: relative;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  background-color: white;
+  width: 700px;
+  height: 700px;
+  border-right: calc(2*var(--size)) solid white;
+  border-bottom: calc(2*var(--size)) solid white;
+  margin: 10px;
+}
+
+.cluster-container>b {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background-color: var(--color);
+  padding: 0;
+  transition: all 0.3s ease;
+  border: var(--size) solid var(--color);
+}
