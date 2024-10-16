@@ -1,4 +1,4 @@
-import { component$ } from "@builder.io/qwik";
+import { component$ } from '@builder.io/qwik'
 import {
   type DocumentHead,
   routeLoader$,
@@ -6,34 +6,34 @@ import {
   zod$,
   z,
   Form,
-} from "@builder.io/qwik-city";
-import styles from "./todolist.module.css";
+} from '@builder.io/qwik-city'
+import styles from './todolist.module.css'
 
 interface ListItem {
-  text: string;
+  text: string
 }
 
-export const list: ListItem[] = [];
+export const list: ListItem[] = []
 
 export const useListLoader = routeLoader$(() => {
-  return list;
-});
+  return list
+})
 
 export const useAddToListAction = routeAction$(
   (item) => {
-    list.push(item);
+    list.push(item)
     return {
       success: true,
-    };
+    }
   },
   zod$({
     text: z.string().trim().min(1),
-  }),
-);
+  })
+)
 
 export default component$(() => {
-  const list = useListLoader();
-  const action = useAddToListAction();
+  const list = useListLoader()
+  const action = useAddToListAction()
 
   return (
     <>
@@ -59,7 +59,7 @@ export default component$(() => {
 
       <div class="container container-center">
         <Form action={action} spaReset>
-          <input type="text" name="text" required class={styles.input} />{" "}
+          <input type="text" name="text" required class={styles.input} />{' '}
           <button type="submit" class="button-dark">
             Add item
           </button>
@@ -70,9 +70,9 @@ export default component$(() => {
         </p>
       </div>
     </>
-  );
-});
+  )
+})
 
 export const head: DocumentHead = {
-  title: "Qwik Todo List",
-};
+  title: 'Qwik Todo List',
+}

@@ -1,8 +1,8 @@
-import { component$ } from "@builder.io/qwik";
-import styles from "./gauge.module.css";
+import { component$ } from '@builder.io/qwik'
+import styles from './gauge.module.css'
 
 export default component$(({ value = 50 }: { value?: number }) => {
-  const safeValue = value < 0 || value > 100 ? 50 : value;
+  const safeValue = value < 0 || value > 100 ? 50 : value
 
   return (
     <div class={styles.wrapper}>
@@ -34,5 +34,5 @@ export default component$(({ value = 50 }: { value?: number }) => {
       </svg>
       <span class={styles.value}>{safeValue}</span>
     </div>
-  );
-});
+  )
+})

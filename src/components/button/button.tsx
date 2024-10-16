@@ -4,14 +4,14 @@ import {
   Slot,
   PropFunction,
   $,
-} from "@builder.io/qwik";
+} from '@builder.io/qwik'
 
 export interface ButtonProps {
-  size?: "small" | "medium" | "large";
-  onClick$?: PropFunction<(e: Event) => void>;
+  size?: 'small' | 'medium' | 'large'
+  onClick$?: PropFunction<(e: Event) => void>
 }
 export const Button = component$<ButtonProps>(
-  ({ size = "medium", onClick$ }) => {
+  ({ size = 'medium', onClick$ }) => {
     useStylesScoped$(`
     .size-small {
       font-size: 10px;
@@ -22,7 +22,7 @@ export const Button = component$<ButtonProps>(
     .size-large {
       font-size: 18px;
     }
-  `);
+  `)
     return (
       <button
         class={{
@@ -32,6 +32,6 @@ export const Button = component$<ButtonProps>(
       >
         <Slot />
       </button>
-    );
+    )
   }
-);
+)
