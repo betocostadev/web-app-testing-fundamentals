@@ -7,8 +7,12 @@ type OrgRepoResponse =
 
 export type Fetch = typeof fetch
 
+// Fetch is passed here for test purposes. We are mocking a fetch with Vitest
 export class GithubApi {
-  constructor(private token: string | undefined) {}
+  constructor(
+    private token: string | undefined,
+    private fetch: Fetch
+  ) {}
 
   async getRepository(user: string, repo: string) {
     const headers: HeadersInit = {
@@ -20,7 +24,7 @@ export class GithubApi {
       headers['Authorization'] = 'Bearer ' + this.token
     }
 
-    const response = await fetch(
+    const response = await this.fetch(
       `https://api.github.com/repos/${user}/${repo}`,
       {
         headers,
