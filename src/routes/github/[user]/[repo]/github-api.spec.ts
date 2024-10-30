@@ -10,7 +10,7 @@ describe('github-api', () => {
     it('should return repository information', async ({ expect }) => {
       // Mocking to avoid a failure due to api or communication failure
       const fetchMock = vi.fn<Parameters<Fetch>, ReturnType<Fetch>>(mockPromise)
-      const api = new GithubApi('TOKEN', fetchMock)
+      const api = new GithubApi('TOKEN', fetchMock, vi.fn(mockPromise) as any)
       const responsePromise = api.getRepository('USERNAME', 'REPOSITORY')
       expect(fetchMock).toHaveBeenCalledWith(
         'https://api.github.com/repos/USERNAME/REPOSITORY',
@@ -22,11 +22,35 @@ describe('github-api', () => {
           },
         }
       )
+      // The actual response doens't matter, that's why the RESPONSE below, to enforce that.
       fetchMock.mock.results[0].value.resolve(new Response('"RESPONSE"'))
       expect(await responsePromise).toEqual('RESPONSE')
       // expect(response).toMatchSnapshot()
     })
-    it.todo('should timeout after x seconds with timeout response')
+    it('should timeout after x seconds with timeout response', async ({
+      expect,
+    }) => {
+      const fetchMock = vi.fn<Parameters<Fetch>, ReturnType<Fetch>>(mockPromise)
+      const delayMock = vi.fn<[number], Promise<void>>(mockPromise)
+      const api = new GithubApi('TOKEN', fetchMock, delayMock)
+
+      const responsePromise = api.getRepository('USERNAME', 'REPOSITORY')
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.github.com/repos/USERNAME/REPOSITORY',
+        {
+          headers: {
+            'User-Agent': 'Qwik Workshop',
+            'X-GitHub-Api-Version': '2022-11-28',
+            Authorization: 'Bearer TOKEN',
+          },
+        }
+      )
+      expect(delayMock).toHaveBeenCalledWith(4000)
+      delayMock.mock.results[0].value.resolve()
+      expect(await responsePromise).toEqual({
+        response: 'timeout',
+      })
+    })
   })
 })
 

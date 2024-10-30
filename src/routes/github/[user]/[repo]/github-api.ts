@@ -11,7 +11,8 @@ export type Fetch = typeof fetch
 export class GithubApi {
   constructor(
     private token: string | undefined,
-    private fetch: Fetch
+    private fetch: Fetch,
+    private delay: (ms: number) => Promise<void>
   ) {}
 
   async getRepository(user: string, repo: string) {
@@ -24,14 +25,22 @@ export class GithubApi {
       headers['Authorization'] = 'Bearer ' + this.token
     }
 
-    const response = await this.fetch(
-      `https://api.github.com/repos/${user}/${repo}`,
-      {
-        headers,
-      }
-    )
-    const repository = (await response.json()) as OrgRepoResponse
+    return Promise.race([
+      this.delay(4000).then(() => {
+        return {
+          response: 'timeout',
+        }
+      }),
 
-    return repository
+      this.fetch(`https://api.github.com/repos/${user}/${repo}`, {
+        headers,
+      }).then((response) => {
+        return response.json()
+      }),
+    ])
   }
+}
+
+export function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
