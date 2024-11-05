@@ -72,7 +72,7 @@ describe('github-api', () => {
       fetchMock.mock.results[0].value.resolve(
         new Response(JSON.stringify(repoSet1))
       )
-      // await delay(0) is a trick for the promises to yeld, so we can keep going
+      // await delay(0) is a trick for the promises to yield, so we can keep going
       // and run other things
       await delay(0)
 
