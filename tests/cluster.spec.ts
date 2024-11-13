@@ -30,10 +30,22 @@ test('it should print validation errors when out of bound parameters are passed'
   await clusterPage.setSize(500000)
   await clusterPage.setClusterSize(250)
   await clusterPage.submit()
-  expect(clusterPage.distanceError).toHaveText('Distance must be at least 100')
-  expect(clusterPage.sizeError).toHaveText('Size must be at most 20000')
-  expect(clusterPage.clusterSizeError).toHaveText(
+  await expect(clusterPage.distanceError).toHaveText(
+    'Distance must be at least 100'
+  )
+  await expect(clusterPage.sizeError).toHaveText('Size must be at most 20000')
+  await expect(clusterPage.clusterSizeError).toHaveText(
     'Minimum cluster size must be at most 100'
+  )
+})
+
+test('it should only accept numbers for parameters', async ({ page }) => {
+  const clusterPage = new ClusterPage(page)
+  await clusterPage.goto()
+  await clusterPage.setSize('')
+  await clusterPage.submit()
+  await expect(clusterPage.sizeError).toHaveText(
+    'Invalid type: Expected number but received NaN'
   )
 })
 
@@ -63,7 +75,7 @@ class ClusterPage {
     return this.page.locator('span.size')
   }
 
-  async setSize(size: number) {
+  async setSize(size: number | string) {
     await this.page.fill('input[name=size]', size.toString())
   }
 
