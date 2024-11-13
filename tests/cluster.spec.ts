@@ -28,11 +28,16 @@ test('it should print validation errors when out of bound parameters are passed'
   await clusterPage.goto()
   await clusterPage.setDistance(1)
   await clusterPage.setSize(500000)
+  await clusterPage.setClusterSize(250)
   await clusterPage.submit()
   expect(clusterPage.distanceError).toHaveText('Distance must be at least 100')
   expect(clusterPage.sizeError).toHaveText('Size must be at most 20000')
+  expect(clusterPage.clusterSizeError).toHaveText(
+    'Minimum cluster size must be at most 100'
+  )
 })
 
+// ClusterPage - Page Object (Great for documentation and usage for tests)
 class ClusterPage {
   constructor(private page: any) {}
 
@@ -80,6 +85,14 @@ class ClusterPage {
 
   get minClusterSize() {
     return this.page.locator('span.min-cluster-size')
+  }
+
+  async setClusterSize(size: number) {
+    return this.page.fill('input[name=minClusterSize]', size.toString())
+  }
+
+  get clusterSizeError() {
+    return this.page.locator('.error.minClusterSize')
   }
 
   async submit() {
