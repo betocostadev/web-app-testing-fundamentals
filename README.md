@@ -1,5 +1,17 @@
 # Qwik City App ⚡️
 
+## About this repository
+
+This repository is a copy of the [testing-fundamentals](https://github.com/mhevery/testing-fundamentals) repository by [Miško Hevery](https://github.com/mhevery).
+
+Miško Hevery uses this repository in his Web App Testing Fundamentals course on Frontend Masters.
+
+Tests here are completed already, if you want to follow along, please use the original repository.
+
+---
+
+Qwik City App ⚡️
+
 - [Qwik Docs](https://qwik.builder.io/)
 - [Discord](https://qwik.builder.io/chat)
 - [Qwik GitHub](https://github.com/BuilderIO/qwik)
